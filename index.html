@@ -140,7 +140,11 @@ class Component extends DCLogic {
     this.state = { i: 0, prev: 0, open: false, scrolled: false, st: 0, ph: 1, hint: false };
   }
   componentDidMount() {
-    this.popTimer = setTimeout(() => { this.setState({ open: true }); }, 7000);
+    this.popTimer = setTimeout(() => {
+      let seen = false;
+      try { seen = !!window.sessionStorage.getItem('vk_pop'); window.sessionStorage.setItem('vk_pop', '1'); } catch (e) {}
+      if (!seen) this.setState({ open: true });
+    }, 7000);
     this.startTimer();
     this.vis = {};
     this.checkVis = () => {
